@@ -9,7 +9,7 @@ file = open( sys.argv[ 1 ] )
 data = json.load( file )
 
 cal = icalendar.Calendar()
-cal[ 'prodid' ] = '~//json2ical//example.com//'
+cal[ 'prodid' ] = '-//json2ical//github.com/d-frey/json2ical//'
 cal[ 'version' ] = '2.0'
 
 if 'summary' in data:
@@ -25,6 +25,8 @@ for entry in data[ 'events' ]:
     event.add( 'dtstart', datetime.fromisoformat( entry[ 'start' ] ).replace( tzinfo=tz ) )
     if 'end' in entry:
         event.add( 'dtend', datetime.fromisoformat( entry[ 'end' ] ).replace( tzinfo=tz ) )
+    if 'stamp' in entry:
+        event.add( 'dtstamp', entry[ 'stamp' ] )
     if 'summary' in entry:
         event.add( 'summary', entry[ 'summary' ] )
     if 'description' in entry:
@@ -33,6 +35,8 @@ for entry in data[ 'events' ]:
         event.add( 'url', entry[ 'url' ] )
     if 'location' in entry:
         event.add( 'location', entry[ 'location' ] )
+    if 'uid' in entry:
+        event.add( 'uid', entry[ 'uid' ] )
 
     cal.add_component( event )
 
